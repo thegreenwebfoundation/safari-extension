@@ -5,3 +5,4 @@ var tabInFocus = function( event )
 }
 
 window.addEventListener("focus", tabInFocus, false);
+window.addEventListener("load", tabInFocus, false);

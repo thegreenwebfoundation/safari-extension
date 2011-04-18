@@ -134,3 +134,43 @@ function getTitle(data)
     }
     return title;
 }
+
+function startMessage()
+{
+        msg = "<img src='./images/green20x20.gif'/><span style='font-size: 12px; line-height: 20px; margin:2px 8px 15px; padding-bottom: 10px;'>The Green Web</span>";
+        document.getElementById('thegreenweb').innerHTML = msg;
+}
+
+/**
+ * Show the resulting icon based on the response
+ */
+function showIcon(resp)
+{
+      title = getTitle(resp);
+      icon = getLinkImage(getIcon(resp),title);
+      
+      msg = icon + title;
+      console.log(msg);
+      document.getElementById('thegreenweb').innerHTML = msg;
+}  
+
+function doRequest()
+{
+        activewindow = safari.application.activeBrowserWindow;
+        url = getUrl(activewindow.activeTab.url);
+        console.log(url);  
+        if(url !== false){
+            //document.getElementById("req").innerText = url;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://api.cleanbits.net/json-multi.php?url="+url, true);
+            xhr.onreadystatechange = function() {
+                 if (xhr.readyState == 4) {
+                    var resp = JSON.parse(xhr.responseText);
+                    showIcon(resp);
+                 }
+            }
+            xhr.send();
+        }else{
+            startMessage();
+        }
+}
