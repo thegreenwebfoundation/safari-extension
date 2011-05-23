@@ -54,6 +54,8 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://api.cleanbits.net/thegreenweb/safari/update.plist</string>
 	<key>Website</key>
 	<string>http://www.cleanbits.net/add-on</string>
 </dict>
