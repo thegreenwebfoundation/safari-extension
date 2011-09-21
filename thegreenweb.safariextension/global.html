@@ -5,33 +5,35 @@
 /**
  * On request, send the data to the cleanbits api
  */
-/*chrome.extension.onRequest.addListener(
-  function(request, sender, sendResponse) {
-    if (request.locs){
-        doSearchRequest(request.locs,sender.tab);
-        sendResponse({});
-    }else
-      sendResponse({}); // snub them.
-  });
-*/
-
+function respondToMessage(theMessageEvent) {
+    console.log('receiving message');
+    console.log(theMessageEvent);
+    if(theMessageEvent.name === "greencheckSearch")
+    {
+       var locs = theMessageEvent.message;
+       doSearchRequest(locs,0);
+    }
+}
+ 
+safari.application.addEventListener("message",respondToMessage,false);
 
 /**
  * Do the search request
  */
-/*  function doSearchRequest(data,tab)
-  {
+function doSearchRequest(data,tab)
+{
+    console.log(data);
+    console.log('doing search request');
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://api.cleanbits.net/json-multi.php?data="+JSON.stringify(data), true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             var resp = JSON.parse(xhr.responseText);
-            chrome.tabs.sendRequest(tab.id, {data: resp}, function(response) {
-            });
+            safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("greencheckSearchResult", resp);
         }
     }
     xhr.send();
-  }*/
+}
 </script>
 </head>
 <body>

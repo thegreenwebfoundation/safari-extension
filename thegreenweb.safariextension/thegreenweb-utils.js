@@ -78,6 +78,7 @@ function getImagePath(file)
     icons['grey']          = safari.extension.baseURI + "images/grey20x20.gif";
     icons['greenquestion'] = safari.extension.baseURI + "images/greenquestion20x20.gif";
     icons['greenfan']      = safari.extension.baseURI + "images/greenfan20x20.gif";
+    icons['greenhouse']    = safari.extension.baseURI + "images/greenhouse20x20.gif";
 
      if(icons[file]){
         return icons[file];
@@ -94,7 +95,21 @@ function getResult(data)
 {
     icon = getIcon(data);
     title = getTitle(data);
-    return getLinkImage(icon,title) + '&nbsp;';
+    return getLinkImage(icon,title) + getPoweredResult(data) + '&nbsp;';
+}
+
+/**
+ * Get the resulting image from the data
+ */
+function getPoweredResult(data)
+{
+    if(data.poweredby) {
+        icon = 'greenhouse';
+        title = data.poweredby.organisatie + ' uses green power';
+        return getLinkImage(icon,title) + '&nbsp;';
+    }else{
+        return '';
+    }
 }
 
 /**
