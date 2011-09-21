@@ -2,7 +2,7 @@
  * Utilities for the greenweb add-on
  *
  * @author Arend-Jan Tetteroo <aj@cleanbits.net>
- * @copyright Cleanbits BV 2010-2011
+ * @copyright Cleanbits/The Green Web Foundation 2010-2011
  */
 
 /**
@@ -192,7 +192,7 @@ function doRequest()
         // Check if url is valid, not cached, so retrieve from api
     
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://api.cleanbits.net/json-multi.php?url="+url, true);
+        xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?url="+url, true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
                 var resp = JSON.parse(xhr.responseText); 

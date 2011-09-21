@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.3</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>3</string>
 	<key>Chrome</key>
@@ -62,8 +62,8 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>http://api.cleanbits.net/thegreenweb/safari/update.plist</string>
+	<string>http://api.thegreenwebfoundation.org/thegreenweb/safari/update.plist</string>
 	<key>Website</key>
-	<string>http://www.cleanbits.net/add-on</string>
+	<string>http://www.thegreenwebfoundation.org/add-on</string>
 </dict>
 </plist>

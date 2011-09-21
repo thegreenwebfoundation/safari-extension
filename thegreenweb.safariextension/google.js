@@ -32,7 +32,6 @@ $(document).ready(function() {
     var page = $(location).attr('href');
     // Check if this is a google domain
     if(page.indexOf("google") != -1){
-        console.log('google');
         $('#res').append("<p id='thegreenweb'>" + getLinkImage('green','The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled<span id=\'thegreenwebenabled\'/></p>');
 
         (function checkLoop() {

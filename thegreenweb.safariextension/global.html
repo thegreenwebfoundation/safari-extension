@@ -3,37 +3,32 @@
         <script src="thegreenweb-utils.js"></script>
         <script>
 /**
- * On request, send the data to the cleanbits api
+ * On request, send the data to the green web api
  */
 function respondToMessage(theMessageEvent) {
-    console.log('receiving message');
     if(theMessageEvent.name === "greencheckSearch")
     {
        var locs = theMessageEvent.message;
        doSearchRequest(locs,theMessageEvent);
     }
 }
- 
-safari.application.addEventListener("message",respondToMessage,false);
 
 /**
  * Do the search request
  */
 function doSearchRequest(data,event)
 {
-    console.log(data);
-    console.log('doing search request');
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://api.cleanbits.net/json-multi.php?data="+JSON.stringify(data), true);
+    xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?data="+JSON.stringify(data), true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             var resp = JSON.parse(xhr.responseText);
-            //safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("greencheckSearchResult", resp);
             event.target.page.dispatchMessage("greencheckSearchResult", resp);
         }
     }
     xhr.send();
 }
+safari.application.addEventListener("message",respondToMessage,false);
 </script>
 </head>
 <body>
