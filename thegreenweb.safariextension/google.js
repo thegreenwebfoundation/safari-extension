@@ -11,12 +11,12 @@
 function getAnswer(theMessageEvent) {
    if (theMessageEvent.name === "greencheckSearchResult") {
       data = theMessageEvent.message;
-      var links = $('span .Cleanbits');
+      var links = $('.Cleanbits');
       $(links).each(function (i) {  
           if(data[i]){
               $(this).html(getResult(data[i]));
               if(data[i].poweredby) {
-                  $(this).next().css('background-color', '#DBFA7F');
+                  $(this).parent().css('background-color', '#DBFA7F');
               }else{
               }
           }
@@ -26,7 +26,7 @@ function getAnswer(theMessageEvent) {
 safari.self.addEventListener("message", getAnswer, false);
 
 /**
- * If document is ready, find the urls to check
+ * If document is ready, check if it's a google page, find the urls to check
  */
 $(document).ready(function() {
     var page = $(location).attr('href');
@@ -36,19 +36,18 @@ $(document).ready(function() {
 
         (function checkLoop() {
             // Check if search results have 'cleanbits' link
-            if ( $('.Cleanbits').length != $('.tl').length) {
+            if ( $('.Cleanbits').length != $('#res h3 > a').length) {
             
             // Remove all cleanbits links
             $('.Cleanbits').remove();
 			
-            // Add cleanbits link to each google listing
-            $('.tl').prepend(' <span class="Cleanbits">' + getImage('greenquestion') + '&nbsp;</span>');
-			
             // Check urls to see if search results are green/grey
             var locs = new Array();
-            var links = $('span .Cleanbits').next();
+            var links = $('#res h3 > a');
             $(links).each(function (i) {
-                    var loc = $(this).find('a').first().attr('href');
+                // Add cleanbits link to each google listing
+                    $(this).prepend(' <span class="Cleanbits">' + getImage('greenquestion') + '&nbsp;</span>');
+                    var loc = $(this).attr('href');
                     locs[i] = getUrl(loc);
                 });
                 if(locs.length > 6) {
