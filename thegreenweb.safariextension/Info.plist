@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Arend-Jan Tetteroo</string>
 	<key>Builder Version</key>
-	<string>534.50</string>
+	<string>7534.53.10</string>
 	<key>CFBundleDisplayName</key>
 	<string>thegreenweb</string>
 	<key>CFBundleIdentifier</key>
@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.0.2</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Bars</key>
@@ -39,7 +39,7 @@
 			<key>End</key>
 			<array>
 				<string>thegreenweb.js</string>
-				<string>jquery-1.6.4.min.js</string>
+				<string>jquery-1.7.1.min.js</string>
 				<string>thegreenweb-utils.js</string>
 				<string>google.js</string>
 				<string>bing.js</string>
