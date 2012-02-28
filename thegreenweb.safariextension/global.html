@@ -11,6 +11,21 @@ function respondToMessage(theMessageEvent) {
        var locs = theMessageEvent.message;
        doSearchRequest(locs,theMessageEvent);
     }
+    if(theMessageEvent.name === "tabFocusSwitched"){
+        console.log('Tab switched');
+         lasturl = localStorage.lasturl;
+         activewindow = safari.application.activeBrowserWindow;
+         url = getUrl(activewindow.activeTab.url);
+         if(url && url != lasturl){
+            // Don't display when no url is found
+            Items = safari.extension.toolbarItems;
+            tgwfToolbar = Items[0];
+            console.log(Items[0]);
+
+            tgwfToolbar.showPopover();
+            localStorage.lasturl = url;
+         } 
+    }
 }
 
 /**

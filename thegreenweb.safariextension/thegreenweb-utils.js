@@ -154,7 +154,7 @@ function getTitle(data)
 
 function startMessage()
 {
-    msg = "<img src='./images/green20x20.gif'/><span style='font-size: 12px; line-height: 20px; margin:2px 8px 15px; padding-bottom: 10px;'>The Green Web</span>";
+    msg = "<img src='./images/green20x20.gif'/>&nbsp;<span style='font-size: 12px; line-height: 20px; margin:2px 8px 15px; padding-bottom: 10px; padding-left:10px;'>The Green Web</span>";
     document.getElementById('thegreenweb').innerHTML = msg;
 }
 
