@@ -41,7 +41,7 @@
 				<key>Identifier</key>
 				<string>thegreenweb</string>
 				<key>Image</key>
-				<string>icon.png</string>
+				<string>toolbaricon.png</string>
 				<key>Label</key>
 				<string>The Green Web</string>
 				<key>Popover</key>
