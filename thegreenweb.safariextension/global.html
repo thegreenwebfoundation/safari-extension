@@ -12,18 +12,23 @@ function respondToMessage(theMessageEvent) {
        doSearchRequest(locs,theMessageEvent);
     }
     if(theMessageEvent.name === "tabFocusSwitched"){
-        console.log('Tab switched');
+         green = true;
          lasturl = localStorage.lasturl;
          activewindow = safari.application.activeBrowserWindow;
          url = getUrl(activewindow.activeTab.url);
          if(url && url != lasturl){
-            // Don't display when no url is found
-            Items = safari.extension.toolbarItems;
-            tgwfToolbar = Items[0];
-            console.log(Items[0]);
-
-            tgwfToolbar.showPopover();
-            localStorage.lasturl = url;
+            // Don't display when no url is found or it's the same url
+        
+            var itemArray = safari.extension.toolbarItems;
+            for (var i = 0; i < itemArray.length; ++i) {
+                var item = itemArray[i];
+                if (item.identifier == "thegreenweb")
+                {
+                    doRequest();
+                    
+                    localStorage.lasturl = url;
+                }
+            }
          } 
     }
 }

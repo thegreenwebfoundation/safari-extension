@@ -65,7 +65,7 @@ function getLinkImage(color,tooltip)
 function getImage(color)
 {
     var img = getImagePath(color);
-    return  "<img style='width:16px; height:16px;border:none;' src='"+img+"'/>";
+    return  "<img style='border:none;' src='"+img+"'/>";
 }
 
 /**
@@ -154,7 +154,7 @@ function getTitle(data)
 
 function startMessage()
 {
-    msg = "<img src='./images/green20x20.gif'/>&nbsp;<span style='font-size: 12px; line-height: 20px; margin:2px 8px 15px; padding-bottom: 10px; padding-left:10px;'>The Green Web</span>";
+    msg = "<img src='./images/green20x20.gif'/>&nbsp;<span id='thegreenwebtext'>The Green Web</span>";
     document.getElementById('thegreenweb').innerHTML = msg;
 }
 
@@ -167,8 +167,32 @@ function showIcon(resp)
     icon = getLinkImage(getIcon(resp),title);
       
     msg = icon + title;
-    document.getElementById('thegreenweb').innerHTML = msg;
+
+    elem = document.getElementById('thegreenweb');
+    if(elem){
+        document.getElementById('thegreenweb').innerHTML = msg;
+    }
+
+    showToolbarIcon(resp.green);
 }  
+
+function showToolbarIcon(green)
+{
+    var itemArray = safari.extension.toolbarItems;
+    for (var i = 0; i < itemArray.length; ++i) {
+        var item = itemArray[i];
+        if (item.identifier == "thegreenweb")
+        {
+            if(green){
+                item.image = safari.extension.baseURI + "windmill.png";
+            } else {
+                item.image = safari.extension.baseURI + "toolbaricon.png";
+            }
+            
+            localStorage.lasturl = url;
+        }
+    }
+}
 
 function doRequest()
 {
@@ -190,19 +214,24 @@ function doRequest()
         }
         
         // Check if url is valid, not cached, so retrieve from api
-    
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?url="+url, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
+        doApiCall(url);
+        
+    }else{
+        startMessage();
+    }
+}
+
+function doApiCall(url)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?url="+url, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
                 var resp = JSON.parse(xhr.responseText); 
                 resp.time = currenttime;
                 localStorage.setItem("cache"+url, JSON.stringify(resp));
                 showIcon(resp);
-            }
         }
-        xhr.send();
-    }else{
-        startMessage();
     }
+    xhr.send();
 }

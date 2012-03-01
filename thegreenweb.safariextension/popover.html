@@ -1,17 +1,43 @@
 <!DOCTYPE html>
+<!--
+ * The Green Web Addon for Safari
+ * http://www.thegreenwebfoundation.org
+ *
+ * Copyright 2012 The Green Web Foundation
+ * Author: Arend-Jan Tetteroo (aj@cleanbits.net)
+ * Support: support@thegreenwebfoundation.org
+ */
+-->
 <html>
     <head>
-        <title>The Green Web</title>
+        <title>The Green Web Addon</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type = "text/javascript" src="thegreenweb-utils.js" charset="UTF-8"></script>         
         <script>
-    function popoverHandler(messageEvent) {
-            doRequest();
-    }
-    safari.application.addEventListener("popover", popoverHandler, true);
-</script>
+            function popoverHandler(messageEvent) {
+                doRequest();
+            }
+            safari.application.addEventListener("popover", popoverHandler, true);
+            safari.application.addEventListener("validate", popoverHandler, true);
+        </script>
+        <style type="text/css">
+        #thegreenweb {
+            line-height:20px;
+            font-size:14px;
+        }
+        #thegreenweb img{
+            margin-right:5px;
+        }
+        #thegreenwebtext {
+            position: relative;
+            top: -3px;
+        }
+        </style>
     </head>
     <body>
-        <div id="thegreenweb"><img src='./images/green20x20.gif' style='padding:5px;'/>&nbsp;<span style="font-size: 12px; line-height: 20px; margin:2px 8px 15px; padding-bottom: 10px; padding-left:10px;">The Green Web</span></div>
+        <div id="thegreenweb">
+            <img src='./images/green20x20.gif'/>&nbsp;
+            <span id='thegreenwebtext'>The Green Web</span>
+        </div>
     </body>
 </html>

@@ -28,11 +28,11 @@
 				<key>Filename</key>
 				<string>popover.html</string>
 				<key>Height</key>
-				<real>25</real>
+				<real>10</real>
 				<key>Identifier</key>
 				<string>thegreenwebpopover</string>
 				<key>Width</key>
-				<real>400</real>
+				<real>300</real>
 			</dict>
 		</array>
 		<key>Toolbar Items</key>
