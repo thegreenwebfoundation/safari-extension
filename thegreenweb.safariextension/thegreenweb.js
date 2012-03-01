@@ -2,7 +2,7 @@
  * Safari extension
  * 
  * @author Arend-Jan Tetteroo <aj@cleanbits.net>
- * @copyright Cleanbits/The Green Web Foundation 2010-2011
+ * @copyright Cleanbits/The Green Web Foundation 2010-2012
  */
 // If tab switched or focused, message the extension bar to act
 var tabInFocus = function( event )

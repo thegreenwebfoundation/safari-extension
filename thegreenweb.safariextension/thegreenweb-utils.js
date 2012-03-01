@@ -2,7 +2,7 @@
  * Utilities for the greenweb add-on
  *
  * @author Arend-Jan Tetteroo <aj@cleanbits.net>
- * @copyright Cleanbits/The Green Web Foundation 2010-2011
+ * @copyright Cleanbits/The Green Web Foundation 2010-2012
  */
 
 /**
@@ -152,6 +152,9 @@ function getTitle(data)
     return title;
 }
 
+/**
+ * Show the start message
+ */
 function startMessage()
 {
     msg = "<img src='./images/green20x20.gif'/>&nbsp;<span id='thegreenwebtext'>The Green Web</span>";
@@ -176,6 +179,9 @@ function showIcon(resp)
     showToolbarIcon(resp.green);
 }  
 
+/** 
+ * Change the toolbaricon to windmill for green or normal for grey
+ */
 function showToolbarIcon(green)
 {
     var itemArray = safari.extension.toolbarItems;
@@ -194,6 +200,9 @@ function showToolbarIcon(green)
     }
 }
 
+/**
+ * Do a request to the api, if not cached
+ */
 function doRequest()
 {
     activewindow = safari.application.activeBrowserWindow;
@@ -221,6 +230,9 @@ function doRequest()
     }
 }
 
+/**
+ * Do an api call
+ */
 function doApiCall(url)
 {
     var xhr = new XMLHttpRequest();

@@ -1,70 +1,70 @@
+<!DOCTYPE html>
 <html>
-    <head><title></title>
+    <head>
+        <title></title>
         <script src="thegreenweb-utils.js"></script>
         <script>
-/**
- * On request, send the data to the green web api
- */
-function respondToMessage(theMessageEvent) {
-    if(theMessageEvent.name === "greencheckSearch")
-    {
-       var locs = theMessageEvent.message;
-       doSearchRequest(locs,theMessageEvent);
-    }
-    if(theMessageEvent.name === "tabFocusSwitched"){
-         green = true;
-         lasturl = localStorage.lasturl;
-         activewindow = safari.application.activeBrowserWindow;
-         url = getUrl(activewindow.activeTab.url);
-         if(url && url != lasturl){
-            // Don't display when no url is found or it's the same url
-        
-            var itemArray = safari.extension.toolbarItems;
-            for (var i = 0; i < itemArray.length; ++i) {
-                var item = itemArray[i];
-                if (item.identifier == "thegreenweb")
-                {
-                    doRequest();
-                    
-                    localStorage.lasturl = url;
+        /**
+         * Handle the message
+         */
+        function respondToMessage(theMessageEvent) {
+            if(theMessageEvent.name === "greencheckSearch")
+            {
+               var locs = theMessageEvent.message;
+               doSearchRequest(locs,theMessageEvent);
+            }
+            if(theMessageEvent.name === "tabFocusSwitched"){
+                 lasturl = localStorage.lasturl;
+                 activewindow = safari.application.activeBrowserWindow;
+                 url = getUrl(activewindow.activeTab.url);
+
+                // Don't display when no url is found or it's the same url
+                 if(url && url != lasturl){
+                    var itemArray = safari.extension.toolbarItems;
+                    for (var i = 0; i < itemArray.length; ++i) {
+                        var item = itemArray[i];
+                        if (item.identifier == "thegreenweb")
+                        {
+                            doRequest();
+                            localStorage.lasturl = url;
+                        }
+                    }
+                 } 
+            }
+        }
+
+        /**
+         * Do the search request
+         */
+        function doSearchRequest(data,event)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?data="+JSON.stringify(data), true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    var resp = JSON.parse(xhr.responseText);
+                    event.target.page.dispatchMessage("greencheckSearchResult", resp);
                 }
             }
-         } 
-    }
-}
-
-/**
- * Do the search request
- */
-function doSearchRequest(data,event)
-{
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?data="+JSON.stringify(data), true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            var resp = JSON.parse(xhr.responseText);
-            event.target.page.dispatchMessage("greencheckSearchResult", resp);
+            xhr.send();
         }
-    }
-    xhr.send();
-}
-safari.application.addEventListener("message",respondToMessage,false);
-</script>
-</head>
-<body>
-    <script>
-     var _gaq = _gaq || [];
-     _gaq.push(['_setAccount', 'UA-3743032-3']);
-     _gaq.push(['_trackPageview']);
+        safari.application.addEventListener("message",respondToMessage,false);
+        </script>
+    </head>
+    <body>
+        <script>
+         var _gaq = _gaq || [];
+         _gaq.push(['_setAccount', 'UA-3743032-3']);
+         _gaq.push(['_trackPageview']);
 
-     (function() {
-       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-       ga.src = 'https://ssl.google-analytics.com/ga.js';
-       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-     })();
-   </script>
-    <div id="resp"></div>
-    <div id="req"></div>
-    <div id="log"></div>
-</body>
+         (function() {
+           var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+           ga.src = 'https://ssl.google-analytics.com/ga.js';
+           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+         })();
+       </script>
+        <div id="resp"></div>
+        <div id="req"></div>
+        <div id="log"></div>
+    </body>
 </html>
