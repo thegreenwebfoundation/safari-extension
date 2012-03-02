@@ -64,10 +64,10 @@ function stripPortFromUrl(loc)
 /**
  * Get the image with a cleanbits link around it
  */
-function getLinkImage(color,tooltip)
+function getLinkImage(image,tooltip)
 {
     var output = "<a href='http://www.cleanbits.net' target='_blank' title='" + tooltip + "'>";
-    output += getImage(color) + "</a>";
+    output += image + "</a>";
     return output;
 }
 
@@ -86,11 +86,16 @@ function getImage(color)
 function getImagePath(file)
 {
     var icons = new Array();
-    icons['green']         = safari.extension.baseURI + "images/green20x20.gif";
-    icons['grey']          = safari.extension.baseURI + "images/grey20x20.gif";
-    icons['greenquestion'] = safari.extension.baseURI + "images/greenquestion20x20.gif";
-    icons['greenfan']      = safari.extension.baseURI + "images/greenfan20x20.gif";
+    icons['green']         = safari.extension.baseURI + "images/smily_16_kleur_happy.png";
+    icons['grey']          = safari.extension.baseURI + "images/smily_16_kleur_sad.png";
+    icons['greentoolbar']  = safari.extension.baseURI + "images/smily_16_happy.png";
+    icons['greytoolbar']   = safari.extension.baseURI + "images/smily_16_sad.png";
+    icons['greenquestion'] = safari.extension.baseURI + "images/greenquestion16x16.png";
+    icons['greenfan']      = safari.extension.baseURI + "images/greenfan16x16.png";
     icons['greenhouse']    = safari.extension.baseURI + "images/greenhouse20x20.gif";
+    icons['greenpopover']  = safari.extension.baseURI + "images/smily_26_happy.png";
+    icons['greypopover']   = safari.extension.baseURI + "images/smily_26_sad.png";
+    icons['greenfanpopover']      = safari.extension.baseURI + "images/greenfan26x26.png";
 
      if(icons[file]){
         return icons[file];
@@ -107,7 +112,7 @@ function getResult(data)
 {
     icon = getIcon(data);
     title = getTitle(data);
-    return getLinkImage(icon,title) + getPoweredResult(data) + '&nbsp;';
+    return getLinkImage(getImage(icon),title) + getPoweredResult(data) + '&nbsp;';
 }
 
 /**
@@ -118,7 +123,7 @@ function getPoweredResult(data)
     if(data.poweredby) {
         icon = 'greenhouse';
         title = data.poweredby.organisatie + ' uses green power';
-        return getLinkImage(icon,title) + '&nbsp;';
+        return getLinkImage(getImage(icon),title) + '&nbsp;';
     }else{
         return '';
     }
@@ -139,6 +144,15 @@ function getIcon(data)
         icon = 'greenquestion';
     }
     return icon;
+}
+
+/**
+ * Get the icon based on the data
+ */
+function getIconPopover(data)
+{
+    icon = this.getIcon(data);
+    return icon + 'popover';
 }
 
 /**
@@ -169,19 +183,19 @@ function getTitle(data)
  */
 function startMessage()
 {
-    msg = "<img src='./images/green20x20.gif'/>&nbsp;<span id='thegreenwebtext'>The Green Web</span>";
+    msg = "<img src='./images/smily_26_happy.png'/>&nbsp;<span id='thegreenwebtext'>The Green Web</span>";
     document.getElementById('thegreenweb').innerHTML = msg;
 }
 
 /**
  * Show the resulting icon based on the response
  */
-function showIcon(resp)
+function showIcon(resp,type)
 {
     title = getTitle(resp);
-    icon = getLinkImage(getIcon(resp),title);
+    icon = getLinkImage(getImage(getIconPopover(resp)),title);
       
-    msg = icon + title;
+    msg = icon + "<span id='thegreenwebtext'>" + title + "</a>";
 
     elem = document.getElementById('thegreenweb');
     if(elem){
@@ -192,7 +206,7 @@ function showIcon(resp)
 }  
 
 /** 
- * Change the toolbaricon to windmill for green or normal for grey
+ * Change the toolbaricon to happy smiley for green or sad smily for grey
  */
 function showToolbarIcon(green)
 {
@@ -202,9 +216,9 @@ function showToolbarIcon(green)
         if (item.identifier == "thegreenweb")
         {
             if(green){
-                item.image = safari.extension.baseURI + "windmill.png";
+                item.image = safari.extension.baseURI + "images/smily_16_happy.png";
             } else {
-                item.image = safari.extension.baseURI + "toolbaricon.png";
+                item.image = safari.extension.baseURI + "images/smily_16_sad.png";
             }
             
             localStorage.lasturl = url;
@@ -215,7 +229,7 @@ function showToolbarIcon(green)
 /**
  * Do a request to the api, if not cached
  */
-function doRequest()
+function doRequest(type)
 {
     activewindow = safari.application.activeBrowserWindow;
     url = getUrl(activewindow.activeTab.url);

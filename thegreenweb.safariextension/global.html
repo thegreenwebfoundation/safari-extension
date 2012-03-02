@@ -17,7 +17,7 @@
                  lasturl = localStorage.lasturl;
                  activewindow = safari.application.activeBrowserWindow;
                  url = getUrl(activewindow.activeTab.url);
-
+ 
                 // Don't display when no url is found or it's the same url
                  if(url && url != lasturl){
                     var itemArray = safari.extension.toolbarItems;

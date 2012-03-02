@@ -30,7 +30,7 @@ $(document).ready(function() {
     var page = $(location).attr('href');
     // Check if this is a bing.com domain
     if(page.indexOf("bing.com") != -1){
-        $('#results').prepend("<p id='thegreenweb'>" + getLinkImage('green','The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled</p>');
+        $('#results').prepend("<p id='thegreenweb'>" + getLinkImage(getImage('green'),'The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled</p>');
         var locs = new Array();
         if ( $("#results ul > li").length > 0 ) {
             $("#results ul > li").each(function (i) {
