@@ -63,6 +63,7 @@
 				<string>google.js</string>
 				<string>bing.js</string>
 				<string>yahoo.js</string>
+				<string>ecosia.js</string>
 			</array>
 		</dict>
 	</dict>

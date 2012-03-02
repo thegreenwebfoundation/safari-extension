@@ -77,7 +77,7 @@ function getLinkImage(image,tooltip)
 function getImage(color)
 {
     var img = getImagePath(color);
-    return  "<img style='border:none;' src='"+img+"'/>";
+    return  "<img style='border:none; width:"+img[1]+"px !important; height: "+img[1]+"px !important;'' src='"+img[0]+"'/>";
 }
 
 /**
@@ -86,23 +86,25 @@ function getImage(color)
 function getImagePath(file)
 {
     var icons = new Array();
-    icons['green']         = safari.extension.baseURI + "images/smily_16_kleur_happy.png";
-    icons['grey']          = safari.extension.baseURI + "images/smily_16_kleur_sad.png";
-    icons['greentoolbar']  = safari.extension.baseURI + "images/smily_16_happy.png";
-    icons['greytoolbar']   = safari.extension.baseURI + "images/smily_16_sad.png";
-    icons['greenquestion'] = safari.extension.baseURI + "images/greenquestion16x16.png";
-    icons['greenfan']      = safari.extension.baseURI + "images/greenfan16x16.png";
-    icons['greenhouse']    = safari.extension.baseURI + "images/greenhouse20x20.gif";
-    icons['greenpopover']  = safari.extension.baseURI + "images/smily_26_happy.png";
-    icons['greypopover']   = safari.extension.baseURI + "images/smily_26_sad.png";
-    icons['greenfanpopover']      = safari.extension.baseURI + "images/greenfan26x26.png";
+    icons['green']      = new Array(safari.extension.baseURI + "images/smily_16_kleur_happy.png", 16);
+    icons['grey']       = new Array(safari.extension.baseURI + "images/smily_16_kleur_sad.png", 16);
+    icons['greentoolbar'] = new Array(safari.extension.baseURI + "images/smily_16_happy.png", 16);
+    icons['greytoolbar'] = new Array(safari.extension.baseURI + "images/smily_16_sad.png", 16);
+    icons['greenquestion'] = new Array(safari.extension.baseURI + "images/greenquestion16x16.png",16);
+    icons['greenfan'] = new Array(safari.extension.baseURI + "images/greenfan16x16.png", 16);
+    icons['greenhouse'] = new Array(safari.extension.baseURI + "images/greenhouse20x20.gif", 20);
+    icons['greenpopover'] = new Array(safari.extension.baseURI + "images/smily_26_happy.png", 26);
+    icons['greypopover'] = new Array(safari.extension.baseURI + "images/smily_26_sad.png", 26);
+    icons['greenfanpopover'] = new Array(safari.extension.baseURI + "images/greenfan26x26.png",26);
 
      if(icons[file]){
         return icons[file];
     }
-
-    iconPath = 'http://images.cleanbits.net/icons/' + file + "20x20.gif";
-    return iconPath;
+    
+    img = new Array();
+    img[1] = 16;
+    img[0] = iconPath = 'http://images.cleanbits.net/icons/' + file + "20x20.gif";
+    return img;
 }
 
 /**
