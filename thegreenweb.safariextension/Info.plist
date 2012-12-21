@@ -58,19 +58,19 @@
 			<key>End</key>
 			<array>
 				<string>thegreenweb.js</string>
-				<string>jquery-1.8.3.min.js</string>
+				<string>libs/jquery-1.8.3.min.js</string>
 				<string>thegreenweb-utils.js</string>
-				<string>google.js</string>
-				<string>bing.js</string>
-				<string>yahoo.js</string>
-				<string>ecosia.js</string>
-				<string>qtip/jquery.qtip.min.js</string>
-				<string>search-all.js</string>
+				<string>pagemods/ecosia.js</string>
+				<string>pagemods/yahoo.js</string>
+				<string>pagemods/google.js</string>
+				<string>pagemods/search-all.js</string>
+				<string>pagemods/bing.js</string>
+				<string>libs/qtip/jquery.qtip.min.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
 		<array>
-			<string>qtip/jquery.qtip.min.css</string>
+			<string>libs/qtip/jquery.qtip.min.css</string>
 			<string>thegreenweb.css</string>
 		</array>
 	</dict>
