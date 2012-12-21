@@ -63,7 +63,8 @@ function stripPortFromUrl(loc)
 
 function searchMessage()
 {
-    return $('<p>', {id : 'thegreenweb', text: 'The Green Web is enabled'}).prepend(addLinkNodeToImage(getImageNode('green'),false));
+    return $('<p>', {id : 'thegreenweb', text: 'The Green Web is enabled', style: 'text-align:center;'})
+            .prepend(addLinkNodeToImage(getImageNode('green'),false));
 }
 
 /**

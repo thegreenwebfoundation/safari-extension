@@ -33,8 +33,8 @@ $(document).ready(function() {
     var page = $(location).attr('href');
     // Check if this is a google domain
     if(page.indexOf("google") != -1){
-        $('#footer').append("<p id='thegreenweb' style='text-align:center;'>" + getLinkImage('green','The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled<span id=\'thegreenwebenabled\'/></p>');
-
+        $('#footer').append(searchMessage());
+        
         (function checkLoop() {
             // Check if search results have 'cleanbits' link
             if ( $('.TGWF').length != $('#res h3 > a.l').length) {
