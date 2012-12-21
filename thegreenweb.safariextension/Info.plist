@@ -65,6 +65,7 @@
 				<string>yahoo.js</string>
 				<string>ecosia.js</string>
 				<string>qtip/jquery.qtip.min.js</string>
+				<string>search-all.js</string>
 			</array>
 		</dict>
 		<key>Stylesheets</key>
