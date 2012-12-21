@@ -11,13 +11,30 @@ function getAnswer(theMessageEvent) {
    if (theMessageEvent.name === "greencheckSearchResult") {
       data = theMessageEvent.message;
       $("#web ol > li").each(function (i) {
-                if(data[i]){
-                    $(this).find('.Cleanbits').first().html(getResult(data[i]));
-                    if(data[i].poweredby) {
-                       $(this).find('.Cleanbits').parent().css('background', '#DBFA7F');
-                    }
+              var loc = $(this).find('a').first().attr('href');
+              var strippedurl = getUrl(loc);
+                if (loc && strippedurl && data[strippedurl]) {
+                  $(this).find('.TGWF').first()
+                    .html(getResultNode(data[strippedurl]).append('&nbsp;'))
+                    .qtip({
+                      content: { 
+                        text: function(api) { 
+                          return getTitleWithLink(data[strippedurl]); 
+                          }
+                        },
+                      show: { delay: 700 },
+                      hide: { fixed:true,  delay:500 }
+                    });
+                  if(data[strippedurl].green){
+                    $(this).find('.TGWF').first().qtip('option', { 'style.classes': 'qtip-green'});
+                  } else {
+                    $(this).find('.TGWF').first().qtip('option', { 'style.classes': 'qtip-light'});
+                  }                
+                  if(data[strippedurl].poweredby) {
+                    $(this).find('.TGWF').parent().css('background', '#DBFA7F');
+                  } 
                 }
-      });
+            });
    }
 }
 safari.self.addEventListener("message", getAnswer, false);
@@ -29,16 +46,17 @@ $(document).ready(function() {
     var page = $(location).attr('href');
     // Check if this is a bing.com domain
     if(page.indexOf("search.yahoo.com") != -1){
-        $('#ft').prepend("<p id='thegreenweb'>" + getLinkImage(getImage('green'),'The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled</p>');
-        var locs = new Array();
+      $('.bd').append(searchMessage());
+        
+        var locs = new Object();
         if ( $("#web ol > li").length > 0 ) {
-            $("#web ol > li").each(function (i) {
-                $(this).find('.url').parent().first().children().first().prepend(' <span class="Cleanbits">' + getImage('greenquestion') + '&nbsp;</span>');
-                var loc = $(this).find('a').first().attr('href');
-                 locs[i] = getUrl(loc);
+             $("#web ol > li").each(function (i) {
+                 $(this).find('.url').parent().first().children().first().prepend($('<span>', { class: 'TGWF'}).append(getImageNode('greenquestion')).append('&nbsp;'));
+                 var loc = getUrl($(this).find('a').first().attr('href'));
+                 locs[loc] = loc;
              });
         }
-        if(locs.length > 0) {
+        if(Object.keys(locs).length > 0) {
             safari.self.tab.dispatchMessage("greencheckSearch",locs);
         }
     }
