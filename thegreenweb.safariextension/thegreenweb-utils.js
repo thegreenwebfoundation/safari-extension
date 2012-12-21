@@ -118,6 +118,39 @@ function getResult(data)
 }
 
 /**
+ * Get the resulting image from the data as jquery dom node
+ */
+function getResultNode(data)
+{
+    icon = getIcon(data);
+    return getLinkNode(icon).append(getPoweredResult(data));
+}
+
+function getLinkNode(color)
+{
+    var href = 'http://www.thegreenwebfoundation.org';
+    var a    = $("<a>", { href: href, class: 'TGWF-addon' })
+                 .append(getImageNode(color));
+    return a;
+}
+
+/**
+ * Get the image with a cleanbits link around it
+ */
+function getLinkImage(color,tooltip)
+{
+    var output = "<a href='http://www.thegreenwebfoundation.org/add-ons/' target='_blank' title='" + tooltip + "'>";
+    output += getImage(color) + "</a>";
+    return output;
+}
+
+function getImageNode(color)
+{
+    var img = getImagePath(color);
+    return $('<img>', { style: 'width:' + img[1] + '; height:' + img[1] + ';border:none;', src: img[0]});
+}
+
+/**
  * Get the resulting image from the data
  */
 function getPoweredResult(data)

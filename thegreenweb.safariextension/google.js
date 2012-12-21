@@ -11,11 +11,12 @@
 function getAnswer(theMessageEvent) {
    if (theMessageEvent.name === "greencheckSearchResult") {
       data = theMessageEvent.message;
-      var links = $('.Cleanbits');
-      $(links).each(function (i) {  
-          if(data[i]){
-              $(this).html(getResult(data[i]));
-              if(data[i].poweredby) {
+      var links = $('.TGWF');
+      $(links).each(function (i) {
+          var loc = getUrl($(this).parent().attr('href'));
+          if(data[loc]){
+              $(this).html(getResultNode(data[loc]).append('&nbsp;'));
+              if(data[loc].poweredby) {
                   $(this).parent().css('background-color', '#DBFA7F');
               }else{
               }
@@ -32,25 +33,25 @@ $(document).ready(function() {
     var page = $(location).attr('href');
     // Check if this is a google domain
     if(page.indexOf("google") != -1){
-        $('#res').append("<p id='thegreenweb' style='valign:middle'>" + getLinkImage(getImage('green'),'The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled<span id=\'thegreenwebenabled\'/></p>');
+        $('#footer').append("<p id='thegreenweb' style='text-align:center;'>" + getLinkImage('green','The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled<span id=\'thegreenwebenabled\'/></p>');
 
         (function checkLoop() {
             // Check if search results have 'cleanbits' link
-            if ( $('.Cleanbits').length != $('#res h3 > a').length) {
-            
-            // Remove all cleanbits links
-            $('.Cleanbits').remove();
-			
-            // Check urls to see if search results are green/grey
-            var locs = new Array();
-            var links = $('#res h3 > a');
-            $(links).each(function (i) {
-                // Add cleanbits link to each google listing
-                    $(this).prepend(' <span class="Cleanbits">' + getImage('greenquestion') + '&nbsp;</span>');
-                    var loc = $(this).attr('href');
-                    locs[i] = getUrl(loc);
+            if ( $('.TGWF').length != $('#res h3 > a.l').length) {
+
+                // Remove all cleanbits links
+                $('.TGWF').remove();
+
+                // Check urls to see if search results are green/grey
+                var locs = new Object();
+                var links = $('#res h3 > a.l');
+                $(links).each(function (i) {
+                    // Add TGWF link to each google listing
+                    $(this).prepend($('<span>', { class: 'TGWF'}).append(getImageNode('greenquestion')).append('&nbsp;'));
+                    var loc = getUrl($(this).attr('href'));
+                    locs[loc] = loc;
                 });
-                if(locs.length > 6) {
+                if(Object.keys(locs).length > 0) {
                     safari.self.tab.dispatchMessage("greencheckSearch",locs);
                 }
             }
