@@ -64,8 +64,14 @@
 				<string>bing.js</string>
 				<string>yahoo.js</string>
 				<string>ecosia.js</string>
+				<string>qtip/jquery.qtip.min.js</string>
 			</array>
 		</dict>
+		<key>Stylesheets</key>
+		<array>
+			<string>qtip/jquery.qtip.min.css</string>
+			<string>thegreenweb.css</string>
+		</array>
 	</dict>
 	<key>Description</key>
 	<string>The Green Web shows on each website you visit if it's sustainably hosted. </string>

@@ -128,26 +128,24 @@ function getResultNode(data)
 
 function getLinkNode(color)
 {
-    var href = 'http://www.thegreenwebfoundation.org';
-    var a    = $("<a>", { href: href, class: 'TGWF-addon' })
-                 .append(getImageNode(color));
-    return a;
+    return addLinkNodeToImage(getImageNode(color));
 }
 
-/**
- * Get the image with a cleanbits link around it
- */
-function getLinkImage(color,tooltip)
+function addLinkNodeToImage(image, provider)
 {
-    var output = "<a href='http://www.thegreenwebfoundation.org/add-ons/' target='_blank' title='" + tooltip + "'>";
-    output += getImage(color) + "</a>";
-    return output;
+    var href = 'http://www.thegreenwebfoundation.org';
+    if(provider){
+        href = href + '/thegreenweb/#/providers/' + provider;
+    }
+    var a    = $("<a>", { href: href, class: 'TGWF-addon' })
+                 .append(image);
+    return a;
 }
 
 function getImageNode(color)
 {
     var img = getImagePath(color);
-    return $('<img>', { style: 'width:' + img[1] + '; height:' + img[1] + ';border:none;', src: img[0]});
+    return $('<img>', { style: 'width:' + img[1] + 'px !important; height:' + img[1] + 'px !important;border:none;', src: img[0]});
 }
 
 /**
@@ -157,8 +155,7 @@ function getPoweredResult(data)
 {
     if(data.poweredby) {
         icon = 'greenhouse';
-        title = data.poweredby.organisatie + ' uses green power';
-        return getLinkImage(getImage(icon),title) + '&nbsp;';
+        return getLinkNode(icon);
     }else{
         return '';
     }
@@ -225,18 +222,19 @@ function startMessage()
 /**
  * Show the resulting icon based on the response
  */
-function showIcon(resp,type)
+function showIcon(resp, type)
 {
     title = getTitle(resp);
-    icon = getLinkImage(getImage(getIconPopover(resp)),title);
-      
-    msg = icon + "<span id='thegreenwebtext'>" + title + "</a>";
-
-    elem = document.getElementById('thegreenweb');
-    if(elem){
-        document.getElementById('thegreenweb').innerHTML = msg;
+    provider = false;
+    if (resp.hostedbyid) {
+        provider = resp.hostedbyid;
     }
+    var link = addLinkNodeToImage(getImageNode(getIconPopover(resp)),provider);
 
+    link.append($('<span>', { id: 'thegreenwebtext', text: title}));
+
+    $('#thegreenweb').html(link);
+    
     showToolbarIcon(resp.green);
 }  
 
@@ -283,7 +281,7 @@ function doRequest(type)
             }
         }
         
-        // Check if url is valid, not cached, so retrieve from api
+        // Url is valid and not cached, so retrieve from api
         doApiCall(url);
         
     }else{
@@ -297,7 +295,7 @@ function doRequest(type)
 function doApiCall(url)
 {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?url="+url, true);
+    xhr.open("GET", "http://api.thegreenwebfoundation.org/greencheck/"+url, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
                 var resp = JSON.parse(xhr.responseText); 
