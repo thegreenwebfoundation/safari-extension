@@ -61,23 +61,9 @@ function stripPortFromUrl(loc)
     return loc;
 }
 
-/**
- * Get the image with a cleanbits link around it
- */
-function getLinkImage(image,tooltip)
+function searchMessage()
 {
-    var output = "<a href='http://www.cleanbits.net' target='_blank' title='" + tooltip + "'>";
-    output += image + "</a>";
-    return output;
-}
-
-/**
- * Get the image element based on the color
- */
-function getImage(color)
-{
-    var img = getImagePath(color);
-    return  "<img style='border:none; width:"+img[1]+"px !important; height: "+img[1]+"px !important;'' src='"+img[0]+"'/>";
+    return $('<p>', {id : 'thegreenweb', text: 'The Green Web is enabled'}).prepend(addLinkNodeToImage(getImageNode('green'),false));
 }
 
 /**
@@ -105,16 +91,6 @@ function getImagePath(file)
     img[1] = 16;
     img[0] = iconPath = 'http://images.cleanbits.net/icons/' + file + "20x20.gif";
     return img;
-}
-
-/**
- * Get the resulting image from the data
- */
-function getResult(data)
-{
-    icon = getIcon(data);
-    title = getTitle(data);
-    return getLinkImage(getImage(icon),title) + getPoweredResult(data) + '&nbsp;';
 }
 
 /**
@@ -160,7 +136,7 @@ function getPoweredResult(data)
 {
     if(data.poweredby) {
         icon = 'greenhouse';
-        return addLinkNodeToImage(getImageNode(icon),false);
+        return addLinkNodeToImage(getImageNode(icon), false);
     }else{
         return '';
     }

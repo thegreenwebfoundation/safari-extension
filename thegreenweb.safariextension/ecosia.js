@@ -47,7 +47,8 @@ $(document).ready(function() {
     var page = $(location).attr('href');
     // Check if this is a bing.com domain
     if(page.indexOf("ecosia.org") != -1){
-        $('.options').append("<p id='thegreenweb'>" + getLinkImage('green','The Green Web extension shows if a site is sustainably hosted') + ' The Green Web is enabled</p>');
+        $('#left').append(searchMessage());
+        
         var locs = new Object();
         if ( $(".result > li").length > 0 ) {
              $(".result > li").each(function (i) {
