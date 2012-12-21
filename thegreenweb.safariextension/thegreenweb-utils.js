@@ -123,20 +123,25 @@ function getResult(data)
 function getResultNode(data)
 {
     icon = getIcon(data);
-    return getLinkNode(icon).append(getPoweredResult(data));
+    provider = false;
+    if(data.hostedbyid){
+        provider = data.hostedbyid;
+    }
+    return addLinkNodeToImage(getImageNode(icon),provider).append(getPoweredResult(data));
 }
 
-function getLinkNode(color)
-{
-    return addLinkNodeToImage(getImageNode(color));
-}
-
-function addLinkNodeToImage(image, provider)
+function getProviderLink(provider)
 {
     var href = 'http://www.thegreenwebfoundation.org';
     if(provider){
         href = href + '/thegreenweb/#/providers/' + provider;
     }
+    return href;
+}
+
+function addLinkNodeToImage(image, provider)
+{
+    var href = getProviderLink(provider);
     var a    = $("<a>", { href: href, class: 'TGWF-addon' })
                  .append(image);
     return a;
@@ -155,7 +160,7 @@ function getPoweredResult(data)
 {
     if(data.poweredby) {
         icon = 'greenhouse';
-        return getLinkNode(icon);
+        return addLinkNodeToImage(getImageNode(icon),false);
     }else{
         return '';
     }
@@ -207,6 +212,35 @@ function getTitle(data)
             title = data.url + ' is hosted grey';
         }
     }
+    return title;
+}
+
+/**
+ * Get the title based on the data
+ */
+function getTitleWithLink(data)
+{
+    title = '';
+    if (data) {
+        if (data.green) {
+            if (data.hostedby) {
+                var href = getProviderLink(data.hostedbyid);
+                title = data.url + ' ' + '<a target=\'_blank\' href=\'' + href + '\'>' + ' is sustainably hosted by ' + ' ' + data.hostedby + '</a>';
+            } else {
+                title = data.url + ' ' + 'is made sustainable through Cleanbits';
+            }
+        } else {
+            if (data.data == false) {
+                var href = getProviderLink(false);
+                // No data available, show help message
+                title = "No data available yet for this country domain. Wanna help? Contact us through "  
+                        + " <a target='_blank' href='" + href + "'>www.thegreenwebfoundation.org</a>";
+            } else {
+                // Data available, so show grey site
+                title = data.url + ' ' + ' is hosted grey';
+            }
+        }
+    }    
     return title;
 }
 
