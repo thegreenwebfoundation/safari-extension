@@ -30,9 +30,6 @@ function getAnswer(theMessageEvent) {
                   } else {
                     $(this).find('.TGWF').first().qtip('option', { 'style.classes': 'qtip-light'});
                   }                
-                  if(data[strippedurl].poweredby) {
-                    $(this).find('.TGWF').parent().css('background', '#DBFA7F');
-                  } 
                 }
             });
    }

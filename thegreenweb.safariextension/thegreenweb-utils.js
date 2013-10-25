@@ -104,7 +104,7 @@ function getResultNode(data)
     if(data.hostedbyid){
         provider = data.hostedbyid;
     }
-    return addLinkNodeToImage(getImageNode(icon),provider).append(getPoweredResult(data));
+    return addLinkNodeToImage(getImageNode(icon),provider);
 }
 
 function getProviderLink(provider)
@@ -128,19 +128,6 @@ function getImageNode(color)
 {
     var img = getImagePath(color);
     return $('<img>', { style: 'width:' + img[1] + 'px !important; height:' + img[1] + 'px !important;border:none;', src: img[0]});
-}
-
-/**
- * Get the resulting image from the data
- */
-function getPoweredResult(data)
-{
-    if(data.poweredby) {
-        icon = 'greenhouse';
-        return addLinkNodeToImage(getImageNode(icon), false);
-    }else{
-        return '';
-    }
 }
 
 /**
