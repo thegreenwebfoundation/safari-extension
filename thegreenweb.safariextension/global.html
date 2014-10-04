@@ -28,6 +28,7 @@
                         {
                             doRequest();
                             localStorage.lasturl = url;
+                            return;
                         }
                     }
                  } 
@@ -37,10 +38,11 @@
         /**
          * Do the search request
          */
-        function doSearchRequest(data,event)
+        function doSearchRequest(data, event)
         {
+            console.log(data);
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://api.thegreenwebfoundation.org/json-multi.php?data="+JSON.stringify(data), true);
+            xhr.open("GET", "http://api.thegreenwebfoundation.org/v2/greencheckmulti/"+JSON.stringify(data), true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     var resp = JSON.parse(xhr.responseText);
