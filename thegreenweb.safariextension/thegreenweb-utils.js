@@ -297,3 +297,49 @@ function doApiCall(url)
     }
     xhr.send();
 }
+
+/**
+ * Do the search request
+ */
+function doSearchRequest(data, event)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://api.thegreenwebfoundation.org/v2/greencheckmulti/"+JSON.stringify(data), true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            var resp = JSON.parse(xhr.responseText);
+            event.target.page.dispatchMessage("greencheckSearchResult", resp);
+        }
+    }
+    xhr.send();
+}
+
+/**
+ * Handle the message
+ */
+function respondToMessage(theMessageEvent) {
+    if(theMessageEvent.name === "greencheckSearch")
+    {
+        var locs = theMessageEvent.message;
+        doSearchRequest(locs,theMessageEvent);
+    }
+    if(theMessageEvent.name === "tabFocusSwitched"){
+        lasturl = localStorage.lasturl;
+        activewindow = safari.application.activeBrowserWindow;
+        url = getUrl(activewindow.activeTab.url);
+
+        // Don't display when no url is found or it's the same url
+        if(url && url != lasturl){
+            var itemArray = safari.extension.toolbarItems;
+            for (var i = 0; i < itemArray.length; ++i) {
+                var item = itemArray[i];
+                if (item.identifier == "thegreenweb")
+                {
+                    doRequest();
+                    localStorage.lasturl = url;
+                    return;
+                }
+            }
+        }
+    }
+}
