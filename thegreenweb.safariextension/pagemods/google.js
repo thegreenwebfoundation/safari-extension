@@ -1,8 +1,8 @@
 /* 
  * Google search pagemod functions
  * 
- * @author Arend-Jan Tetteroo <aj@cleanbits.net>
- * @copyright Cleanbits/The Green Web Foundation 2010-2011
+ * @author Arend-Jan Tetteroo <aj@thegreenwebfoundation.org>
+ * @copyright Cleanbits/The Green Web Foundation 2010-2014
  */
 
 /**
