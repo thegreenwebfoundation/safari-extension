@@ -44,10 +44,11 @@ $(document).ready(function() {
     var page = $(location).attr('href');
     // Check if this is a bing.com domain
     if(page.indexOf("bing.com") != -1){
-        $('#results').prepend(searchMessage());
-        var locs = new Object();
-        if ( $("#results ul > li").length > 0 ) {
-             $("#results ul > li").each(function (i) {
+        $('#b_results').prepend(searchMessage());
+        var locs = {};
+        var list = $("#b_results").find(".b_algo");
+        if ( list.length > 0 ) {
+             list.each(function (i) {
                  $(this).find('a').first().prepend($('<span>', { class: 'TGWF'}).append(getImageNode('greenquestion')).append('&nbsp;'));
                  var loc = getUrl($(this).find('a').first().attr('href'));
                  locs[loc] = loc;
