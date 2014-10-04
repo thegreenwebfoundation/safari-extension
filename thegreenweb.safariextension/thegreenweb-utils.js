@@ -30,13 +30,12 @@ function stripProtocolFromUrl(loc)
     }
     var prot = loc.substring(0,5);
     if(prot == 'http:'){
-        loc = loc.substring(7);
-    }else if(prot == 'https'){
-        loc = loc.substring(8);
-    }else{
-        return false;
+        return loc.substring(7);
     }
-    return loc;
+    if(prot == 'https'){
+        return loc.substring(8);
+    }
+    return false;
 }
 
 /**
@@ -44,8 +43,7 @@ function stripProtocolFromUrl(loc)
  */
 function stripPageFromUrl(loc)
 {
-    var temp = new Array();
-    temp = loc.split('/');
+    var temp = loc.split('/');
     loc = temp[0];
     return loc;
 }
@@ -55,8 +53,7 @@ function stripPageFromUrl(loc)
  */
 function stripPortFromUrl(loc)
 {
-    var temp = new Array();
-    temp = loc.split(':');
+    var temp = loc.split(':');
     loc = temp[0];
     return loc;
 }
@@ -72,7 +69,7 @@ function searchMessage()
  */
 function getImagePath(file)
 {
-    var icons = new Array();
+    var icons = [];
     icons['green']      = new Array(safari.extension.baseURI + "images/smily_16_kleur_happy.png", 16);
     icons['grey']       = new Array(safari.extension.baseURI + "images/smily_16_kleur_sad.png", 16);
     icons['greentoolbar'] = new Array(safari.extension.baseURI + "images/smily_16_happy.png", 16);
@@ -88,7 +85,7 @@ function getImagePath(file)
         return icons[file];
     }
     
-    img = new Array();
+    img = [];
     img[1] = 16;
     img[0] = iconPath = 'http://images.cleanbits.net/icons/' + file + "20x20.gif";
     return img;
@@ -135,16 +132,16 @@ function getImageNode(color)
  */
 function getIcon(data)
 {
-    var icon = 'grey';
     if(data.green) {
-        icon = 'green';
         if(data.icon) {
-            icon = data.icon;
+            return data.icon;
         }
-    }else if(data.data == false){
+        return 'green';
+    }
+    if(data.data == false){
         icon = 'greenquestion';
     }
-    return icon;
+    return 'grey';
 }
 
 /**
@@ -163,20 +160,18 @@ function getTitle(data)
 {
     if(data.green) {
         if(data.hostedby){
-            title = 'Sustainably hosted by ' + data.hostedby;
-        }else{
-            title = 'is made sustainable through Cleanbits';
+            return 'Sustainably hosted by ' + data.hostedby;
         }
-    }else{
-        if(data.data == false){
-            // No data available, show help message
-            title = " No data available yet for this country domain. Wanna help? Contact us through www.cleanbits.net";
-        }else{
-            // Data available, so show grey site
-            title = data.url + ' is hosted grey';
-        }
+        return 'is made sustainable through Cleanbits';
     }
-    return title;
+
+    if(data.data == false){
+        // No data available, show help message
+        return " No data available yet for this country domain. Wanna help? Contact us through www.cleanbits.net";
+    }
+
+    // Data available, so show grey site
+    return data.url + ' is hosted grey';
 }
 
 /**
@@ -184,28 +179,26 @@ function getTitle(data)
  */
 function getTitleWithLink(data)
 {
-    title = '';
     if (data) {
         if (data.green) {
             if (data.hostedby) {
                 var href = getProviderLink(data.hostedbyid);
-                title = data.url + ' ' + '<a target=\'_blank\' href=\'' + href + '\'>' + ' is sustainably hosted by ' + ' ' + data.hostedby + '</a>';
-            } else {
-                title = data.url + ' ' + 'is made sustainable through Cleanbits';
+                return data.url + ' ' + '<a target=\'_blank\' href=\'' + href + '\'>' + ' is sustainably hosted by ' + ' ' + data.hostedby + '</a>';
             }
-        } else {
-            if (data.data == false) {
-                var href = getProviderLink(false);
-                // No data available, show help message
-                title = "No data available yet for this country domain. Wanna help? Contact us through "  
-                        + " <a target='_blank' href='" + href + "'>www.thegreenwebfoundation.org</a>";
-            } else {
-                // Data available, so show grey site
-                title = data.url + ' ' + ' is hosted grey';
-            }
+            return data.url + ' ' + 'is made sustainable through Cleanbits';
         }
+
+        if (data.data == false) {
+            var href = getProviderLink(false);
+            // No data available, show help message
+            return "No data available yet for this country domain. Wanna help? Contact us through "
+                    + " <a target='_blank' href='" + href + "'>www.thegreenwebfoundation.org</a>";
+        }
+           // Data available, so show grey site
+            return data.url + ' ' + ' is hosted grey';
+
     }    
-    return title;
+    return '';
 }
 
 /**
@@ -246,13 +239,13 @@ function showToolbarIcon(green)
         var item = itemArray[i];
         if (item.identifier == "thegreenweb")
         {
+            localStorage.lasturl = url;
             if(green){
                 item.image = safari.extension.baseURI + "images/smily_16_happy.png";
-            } else {
-                item.image = safari.extension.baseURI + "images/smily_16_sad.png";
+                return;
             }
-            
-            localStorage.lasturl = url;
+            item.image = safari.extension.baseURI + "images/smily_16_sad.png";
+            return;
         }
     }
 }
@@ -281,10 +274,10 @@ function doRequest(type)
         
         // Url is valid and not cached, so retrieve from api
         doApiCall(url);
-        
-    }else{
-        startMessage();
+        return;
     }
+
+    startMessage();
 }
 
 /**
